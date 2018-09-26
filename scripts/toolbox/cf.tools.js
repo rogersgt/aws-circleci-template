@@ -7,7 +7,7 @@ const TEMPLATE_DIR = `${__dirname}/../../cloudformation/templates`;
 
 module.exports.createStack = async (stackName, params, templateName) => {
   const createResp = await cf.createStack({
-    TemplateBody: fs.readFileSync(`${TEMPLATE_DIR}/${templateName}`),
+    TemplateBody: fs.readFileSync(`${TEMPLATE_DIR}/${templateName}`, 'utf-8'),
     StackName: stackName,
     Parameters: params,
     Capabilities: ['CAPABILITY_NAMED_IAM', 'CAPABILITY_IAM']
@@ -51,7 +51,7 @@ module.exports.updateStack = async (stackName, params, templateName) => {
     const updateParams = {
       StackName: stackName,
       Parameters: params,
-      TemplateBody: fs.readFileSync(`${TEMPLATE_DIR}/${templateName}`),
+      TemplateBody: fs.readFileSync(`${TEMPLATE_DIR}/${templateName}`, 'utf-8'),
       Capabilities: ['CAPABILITY_NAMED_IAM', 'CAPABILITY_IAM']
     };
     const updateResp = await cf.updateStack(updateParams).promise();
