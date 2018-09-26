@@ -5,7 +5,7 @@ const { templates:paramMappings } = require('../../cloudformation/parameters.map
 const cf = new CloudFormation();
 const TEMPLATE_DIR = `${__dirname}/../../cloudformation/templates`;
 
-module.exports.createStack = async (stackName, params, templateName) => {
+module.exports.createStack = async (stackName, params=[], templateName) => {
   const createResp = await cf.createStack({
     TemplateBody: fs.readFileSync(`${TEMPLATE_DIR}/${templateName}`, 'utf-8'),
     StackName: stackName,
