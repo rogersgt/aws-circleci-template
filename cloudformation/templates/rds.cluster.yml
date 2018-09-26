@@ -47,3 +47,10 @@ Outputs:
   DBCluster:
     Value: !Ref DBCluster
     Description: RDS Postgres cluster
+  
+  ClusterEndpoint:
+    Value: !GetAtt DBCluster.Endpoint.Address
+    Description: Cluster endpoint to connect to the writer db instance
+  
+  Port:
+    Value: !GetAtt DBCluster.Port
