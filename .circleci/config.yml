@@ -1,0 +1,60 @@
+default: &defaults
+  working_directory: ~/app
+  docker:
+    - image: node:8.11
+
+version: 2
+jobs:
+
+  test:
+    <<: *defaults
+    steps:
+      - setup_remote_docker
+      - checkout
+      - run:
+          name: Install Dependencies
+          command: yarn
+      - run:
+          name: Test CloudFormation Syntax
+          command: yarn test
+
+  deploy:
+    <<: *defaults
+    steps:
+      - setup_remote_docker
+      - checkout
+      - run:
+          name: Install Dependencies
+          command: yarn
+      - run:
+          name: Deploy Infrastructure
+          command: yarn deploy
+
+
+
+workflows:
+  version: 2
+
+  general:
+    jobs:
+      - test:
+          filters:
+            branches:
+              ignore:
+                - dev
+                - master
+
+  deploy:
+    jobs:
+      - test:
+          filters:
+            branches:
+              only:
+                - dev
+                - master
+      - deploy:
+          filters:
+            branches:
+              only:
+                - dev
+                - master

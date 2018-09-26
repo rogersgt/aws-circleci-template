@@ -1,0 +1,49 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: RDS Cluster
+
+Parameters:
+  Env:
+    Type: String
+    Description: Name of the environment
+    Default: local
+    AllowedValues:
+      - local
+      - dev
+      - master
+
+  Username:
+    Type: String
+    Description: Master username of the DB Cluster
+    Default: admin
+  
+  Password:
+    Type: String
+    Description: Master password of the DB Cluster
+
+
+Resources:
+  DBCluster:
+    Type: AWS::RDS::DBCluster
+    Properties:
+      AvailabilityZones:
+        - !Join ['', [!Ref 'AWS::Region', a]]
+        - !Join ['', [!Ref 'AWS::Region', b]]
+      DBClusterParameterGroupName: !Ref ParameterGroup
+      Engine: Postgres9.5
+
+  
+  ParameterGroup:
+    Type: AWS::RDS::DBClusterParameterGroup
+    Properties:
+      Description: Parameter Group that applies properties to the Database instance(s)
+      Family: Postgres9.5
+      Parameters:
+        'ssl': 'true'
+      MasterUsername: !Ref 'Username'
+      MasterUserPassword: !Ref 'Password'
+      Port: 3306
+
+Outputs:
+  DBCluster:
+    Value: !Ref DBCluster
+    Description: RDS Postgres cluster
