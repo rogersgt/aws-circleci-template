@@ -16,6 +16,7 @@ const TEMPLATE_DIR = `${__dirname}/../cloudformation/templates`;
         TemplateBody: fs.readFileSync(FULL_PATH, 'utf-8')
       };
       await cf.validateTemplate(validateParams).promise();
+      console.log(`${template}: OK`)
     }
   } catch (error) {
     console.log(error);
