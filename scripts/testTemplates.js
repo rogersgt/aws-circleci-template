@@ -4,12 +4,14 @@ const { CloudFormation } = require('aws-sdk');
 
 const cf = new CloudFormation();
 
+const TEMPLATE_DIR = `${__dirname}/../cloudformation/templates`;
+
 (async function testTemplates() {
   try {
-    const templates = fs.readdirSync(`${__dirname}/../cloudformation/templates`);
+    const templates = fs.readdirSync(TEMPLATE_DIR);
 
     for (const template of templates) {
-      const FULL_PATH = `${__dirname}/../cloudformation/${template}`;
+      const FULL_PATH = `${TEMPLATE_DIR}/${template}`;
       const validateParams = {
         TemplateBody: fs.readFileSync(FULL_PATH, 'utf-8')
       };

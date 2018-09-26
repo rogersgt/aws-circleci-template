@@ -58,3 +58,5 @@ workflows:
               only:
                 - dev
                 - master
+          requires:
+            - test
