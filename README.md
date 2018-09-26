@@ -16,6 +16,29 @@ and fill in the values that you want.
 
 ### Environments
 This repo starts you out with 3 environments
-- local: used for developing locally (it still applies scripts using the provided AWS credentials)
-- development: Any merges/commits into the `dev` branch will deploy to the development environment
-- production: Any merges/commits into the `master` branch will deploy into the production environment
+- `local`: used for developing locally (it still applies scripts using the provided AWS credentials)
+- `dev``: Any merges/commits into the `dev` branch will deploy to the development environment
+- `master`: Any merges/commits into the `master` branch will deploy into the production environment
+
+### Adding Resources
+ In order to add a new AWS Resource via CloudFormation, do the following:
+ * Add a CloudFormation template to `cloudformation/templates/` in the convention of `<aws service>.<any name>.yml`
+ * If the template requires parameters, specify the parameters in `cloudformation/parameters.map.js` using the following syntax:
+ ``` bash
+templates: [
+  ...
+  {
+    templateName: 'name-of-the-template-file-in-templates-dir',
+    parameters: [
+      {
+        ParameterKey: 'NameOfTheParameter',
+        ParameterValue: 'ValueToEnterforTheParameter'
+      }
+    ]
+  }
+  ...
+]
+ ```
+ * The resource will be created using the CloudFormation stack name: `<aws service>-<name you provide in template>-<environment>`. As currently configured, the environment will be either: `local`, `dev` (from dev branch),
+ or `master` (from the master branch, production).
+ 
