@@ -53,4 +53,4 @@ Outputs:
     Description: Cluster endpoint to connect to the writer db instance
   
   Port:
-    Value: !GetAtt DBCluster.Port
+    Value: !GetAtt DBCluster.Endpoint.Port
